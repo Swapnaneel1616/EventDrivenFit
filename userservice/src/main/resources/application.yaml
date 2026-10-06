@@ -1,3 +1,15 @@
 spring:
   application:
     name: userservice
+
+  datasource:
+    url: jdbc:postgresql://ep-spring-snow-b5wle5us-pooler.c-7.us-east-2.aws.neon.tech/Fitness-user?sslmode=require&channelBinding=require
+    username: neondb_owner
+    password: npg_9b0DulJoPAsQ
+
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
