@@ -5,13 +5,20 @@ import com.fitness.userservice.dto.RegisterRequest;
 import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.models.User;
 import com.fitness.userservice.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 
+
+    @Autowired
     private UserRepository userRepository;
+
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserResponse register(RegisterRequest request) {
@@ -24,7 +31,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(request.getLastName());
         user.setPassword(request.getPassword());
 
-        User savedUser = new User();
+        User savedUser = userRepository.save(user);
         UserResponse userResponse = new UserResponse();
         userResponse.setId(savedUser.getId());
         userResponse.setFirstName(savedUser.getFirstName());
