@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface UserService {
     UserResponse register(RegisterRequest request);
+
+    UserResponse getUserProfile(String userId);
 }
