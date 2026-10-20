@@ -2,11 +2,15 @@ package com.fitness.userservice.services;
 
 
 import com.fitness.userservice.dto.RegisterRequest;
+import com.fitness.userservice.dto.UpdateUserRequest;
 import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.models.User;
 import com.fitness.userservice.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,32 +35,61 @@ public class UserServiceImpl implements UserService {
         user.setLastName(request.getLastName());
         user.setPassword(request.getPassword());
 
-        User savedUser = userRepository.save(user);
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(savedUser.getId());
-        userResponse.setFirstName(savedUser.getFirstName());
-        userResponse.setLastName(savedUser.getLastName());
-        userResponse.setEmail(savedUser.getEmail());
-        userResponse.setPassword(savedUser.getPassword());
-        userResponse.setCreatedAt(savedUser.getCreatedAt());
-        userResponse.setUpdatedAt(savedUser.getUpdatedAt());
-
-        return userResponse;
+        return toResponse(userRepository.save(user));
     }
 
     @Override
     public UserResponse getUserProfile(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new RuntimeException("User no Found!"));
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(user.getId());
-        userResponse.setFirstName(user.getFirstName());
-        userResponse.setLastName(user.getLastName());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setPassword(user.getPassword());
-        userResponse.setCreatedAt(user.getCreatedAt());
-        userResponse.setUpdatedAt(user.getUpdatedAt());
-
-        return userResponse;
+        return toResponse(user);
     }
+
+    @Override
+    public Boolean existsByUserId(String userId) {
+        return userRepository.existsById(userId);
+    }
+
+    @Override
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponse updateUser(String userId, UpdateUserRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()->new RuntimeException("User Not found!!"));
+
+        if (!user.getEmail().equals(request.getEmail())
+                && userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email already in use");
+        }
+        user.setEmail(request.getEmail());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+
+        return toResponse(userRepository.save(user));
+    }
+
+    @Override
+    public void deleteUser(String userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new RuntimeException("User Not Found!!"));
+        userRepository.delete(user);
+    }
+
+    private UserResponse toResponse(User user) {
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setCreatedAt(user.getCreatedAt());
+        response.setUpdatedAt(user.getUpdatedAt());
+        return response;
+    }
+
+
 }
