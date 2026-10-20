@@ -6,6 +6,7 @@ import com.fitness.userservice.dto.UpdateUserRequest;
 import com.fitness.userservice.dto.UserResponse;
 import com.fitness.userservice.models.User;
 import com.fitness.userservice.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
 
@@ -47,6 +49,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean existsByUserId(String userId) {
+        log.info("Calling User Service for {}", userId);
         return userRepository.existsById(userId);
     }
 
@@ -62,10 +65,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()->new RuntimeException("User Not found!!"));
 
-        if (!user.getEmail().equals(request.getEmail())
-                && userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already in use");
-        }
+
         user.setEmail(request.getEmail());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
