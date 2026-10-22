@@ -5,6 +5,8 @@ import com.fitness.activityservice.dto.ActivityResponse;
 import com.fitness.activityservice.model.Activity;
 import com.fitness.activityservice.repository.ActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +16,12 @@ public class ActivityServiceImpl implements ActivityService{
 
     @Autowired
     private UserValidationService userValidationService;
+
+    @Autowired
+    private KafkaTemplate<String , Activity> kafkaTemplate;
+
+    @Value("${kafka.topic.name }")
+    private String topicName;
     @Override
     public ActivityResponse trackActivity(ActivityRequest request) {
         boolean isValidUser = userValidationService.validateUser(request.getUserId());
@@ -31,6 +39,11 @@ public class ActivityServiceImpl implements ActivityService{
                 .build();
 
         Activity savedActivity = activityRepository.save(activity);
+        try{
+            kafkaTemplate.send(topicName , savedActivity.getUserId(), savedActivity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return mapToResponse(savedActivity);
     }
 

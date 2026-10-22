@@ -4,9 +4,21 @@ spring:
   mongodb:
     uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.v4vwgvh.mongodb.net/${MONGO_DB:activitydb}?retryWrites=true&w=majority&appName=Cluster0
     database: activitydb
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+kafka:
+  topic:
+    name: activity-events
+
 server:
   port: 8082
+
+
