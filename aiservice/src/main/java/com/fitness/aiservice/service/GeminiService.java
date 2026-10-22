@@ -21,7 +21,7 @@ public class GeminiService {
         this.webClient = webClientBuilder.build();
     }
 
-    public String getAnswer(String question) {
+    public String getRecommendations(String question) {
         Map<String, Object> requestBody = Map.of(
                 "contents", new Object[] {
                         Map.of("parts", new Object[]{
@@ -31,8 +31,9 @@ public class GeminiService {
         );
 
         String response = webClient.post()
-                .uri(geminiApiUrl + geminiApiKey)
+                .uri(geminiApiUrl)
                 .header("Content-Type", "application/json")
+                .header("X-goog-api-key", geminiApiKey)
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)

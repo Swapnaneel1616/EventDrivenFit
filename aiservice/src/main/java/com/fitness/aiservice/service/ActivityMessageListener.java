@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 public class ActivityMessageListener {
 
 
+    private final ActivityAIService activityAIService;
 
     @KafkaListener(topics = "${kafka.topic.name}" , groupId = "activity-processor-group")
     public void processActivity(Activity activity){
         log.info("Received Activity for Processing: {}", activity.getUserId());
+        activityAIService.generateRecommendation(activity);
     }
 }

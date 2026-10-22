@@ -20,7 +20,7 @@ public class ActivityServiceImpl implements ActivityService{
     @Autowired
     private KafkaTemplate<String , Activity> kafkaTemplate;
 
-    @Value("${kafka.topic.name }")
+    @Value("${kafka.topic.name}")
     private String topicName;
     @Override
     public ActivityResponse trackActivity(ActivityRequest request) {
