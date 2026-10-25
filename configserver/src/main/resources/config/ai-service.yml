@@ -1,6 +1,6 @@
 spring:
   mongodb:
-    uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.v4vwgvh.mongodb.net/${MONGO_DB:activitydb}?retryWrites=true&w=majority&appName=Cluster0
+    uri: mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@cluster0.v4vwgvh.mongodb.net/${MONGO_DB:airecomendationfitness}?retryWrites=true&w=majority&appName=Cluster0
     database: airecomendationfitness
 
   kafka:
