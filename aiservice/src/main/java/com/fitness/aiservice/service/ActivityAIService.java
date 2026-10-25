@@ -2,6 +2,7 @@ package com.fitness.aiservice.service;
 
 import com.fitness.aiservice.model.Activity;
 import com.fitness.aiservice.model.Recommendation;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Data
 public class ActivityAIService {
+
     private final GeminiService geminiService;
 
     public Recommendation generateRecommendation(Activity activity){

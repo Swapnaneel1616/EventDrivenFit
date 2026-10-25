@@ -1,25 +1,27 @@
 spring:
   application:
-    name: userservice
+    name: user-service
 
-  datasource:
-    url: jdbc:postgresql://ep-spring-snow-b5wle5us-pooler.c-7.us-east-2.aws.neon.tech/Fitness-user?sslmode=require&channelBinding=require
-    username: neondb_owner
-    password: npg_9b0DulJoPAsQ
+#  datasource:
+#    url: jdbc:postgresql://ep-spring-snow-b5wle5us-pooler.c-7.us-east-2.aws.neon.tech/Fitness-user?sslmode=require&channelBinding=require
+#    username: neondb_owner
+#    password: npg_9b0DulJoPAsQ
+#
+#  jpa:
+#    database: POSTGRESQL
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: update
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#
+#server:
+#  port: 8081
 
-  jpa:
-    database: POSTGRESQL
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-
-server:
-  port: 8081
