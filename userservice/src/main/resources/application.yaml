@@ -1,6 +1,8 @@
 spring:
   application:
     name: user-service
+  config:
+    import: optional:configserver:http://localhost:8888
 
 #  datasource:
 #    url: jdbc:postgresql://ep-spring-snow-b5wle5us-pooler.c-7.us-east-2.aws.neon.tech/Fitness-user?sslmode=require&channelBinding=require
