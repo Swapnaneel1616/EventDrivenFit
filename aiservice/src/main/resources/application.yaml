@@ -23,7 +23,7 @@ kafka:
 
 gemini:
   api:
-    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent
+    url: ${GEMINI_URL}
     key: ${GEMINI_KEY}
 eureka:
   client:
